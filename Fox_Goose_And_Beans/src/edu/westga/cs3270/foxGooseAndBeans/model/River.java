@@ -68,51 +68,44 @@ public class River {
 
 		case GOOSE:
 
-			if ((this.goose && this.farmer) || !(this.goose && this.farmer)) {
+			this.moveItem(this.goose);
 
-				this.goose = false;
-				this.farmer = false;
-
-				this.checkIfFoxEatsGoose();
-				this.checkIfGooseEatsBeans();
-
-			} else {
-				throw new IllegalArgumentException("the goose and the farmer are not on the same side.");
-			}
+			this.checkIfFoxEatsGoose();
+			this.checkIfGooseEatsBeans();
 
 			break;
 
 		case FOX:
 
-			if ((this.fox && this.farmer) || !(this.fox && this.farmer)) {
-
-				this.fox = false;
-				this.farmer = false;
-
-				this.checkIfFoxEatsGoose();
-
-			} else {
-				throw new IllegalArgumentException("the fox and the farmer are not on the same side.");
-			}
+			this.moveItem(this.fox);
+			this.checkIfFoxEatsGoose();
 
 			break;
 
 		case BEANS:
 
-			if ((this.beans && this.farmer) || !(this.beans && this.farmer)) {
+			this.moveItem(this.beans);
+			this.checkIfGooseEatsBeans();
 
-				this.beans = false;
-				this.farmer = false;
-
-				this.checkIfGooseEatsBeans();
-
-			} else {
-				throw new IllegalArgumentException("The beans and the farmer are not on the same side.");
-			}
 			break;
 
 		case NOTHING:
 			break;
+		}
+	}
+
+	/**
+	 * Moves the passed in item from one side to the other
+	 * 
+	 * @param currentItem
+	 *            the passed in item: fox, goose, or beans.
+	 */
+	private void moveItem(boolean currentItem) {
+		if ((currentItem && this.farmer) || !(currentItem && this.farmer)) {
+			this.farmer = false;
+			currentItem = false;
+		} else {
+			throw new IllegalArgumentException("The current item and the farmer are not on the same side.");
 		}
 	}
 
