@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
+ * The river guide class.
+ * 
  * @author danielburkhart
- *
+ * @version Fall 2015
  */
 public class RiverGuide {
 
@@ -23,20 +25,26 @@ public class RiverGuide {
 	}
 
 	/**
+	 * Method recursively search until it finds the solution.
 	 * 
 	 * @param aRiver
+	 *            The current river scenario
 	 * 
-	 * @return
+	 * @return True once a solution is found. False otherwise.
 	 */
 	private boolean solve(River aRiver) {
 		return false;
 	}
 
 	/**
+	 * The solution path.
 	 * 
-	 * @return
+	 * @return An arraylist containing the order in which to reach the solution.
 	 */
 	public ArrayList<Item> getSolution() {
+		if (this.solution.isEmpty()) {
+			this.solve(this.aRiver);
+		}
 		return this.solution;
 	}
 }
