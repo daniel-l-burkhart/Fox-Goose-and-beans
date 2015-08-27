@@ -6,8 +6,7 @@ package edu.westga.cs3270.foxGooseAndBeans.model;
 import java.util.ArrayList;
 
 /**
- * @author danielburkhart
- *
+ * @author danielburkhart The river class.
  */
 public class River {
 
@@ -47,10 +46,12 @@ public class River {
 	 * @return
 	 */
 	public boolean solved() {
-		if ((this.fox && this.goose && this.beans && this.farmer) == false) {
+
+		if ((this.fox == false && this.goose == false && this.beans == false && this.farmer == false)) {
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -61,36 +62,37 @@ public class River {
 	 */
 	public void transportItem(Item anItem) {
 
-		this.checkIfFoxEatsGoose();
-		this.checkIfGooseEatsBeans();
-
 		switch (anItem) {
+			case GOOSE:
 
-		case GOOSE:
+				this.goose = this.moveItem(this.goose);
+				this.checkIfFoxEatsGoose();
+				this.checkIfGooseEatsBeans();
+				break;
 
-			this.moveItem(this.goose);
+			case FOX:
 
-			this.checkIfFoxEatsGoose();
-			this.checkIfGooseEatsBeans();
+				this.fox = this.moveItem(this.fox);
+				this.checkIfFoxEatsGoose();
+				this.checkIfGooseEatsBeans();
+				this.goose = true;
+				break;
 
-			break;
+			case BEANS:
 
-		case FOX:
+				this.beans = this.moveItem(this.beans);
+				this.checkIfGooseEatsBeans();
+				this.checkIfFoxEatsGoose();
+				this.goose = true;
+				break;
 
-			this.moveItem(this.fox);
-			this.checkIfFoxEatsGoose();
+			case NOTHING:
+				this.farmer = true;
+				break;
 
-			break;
+			default:
+				break;
 
-		case BEANS:
-
-			this.moveItem(this.beans);
-			this.checkIfGooseEatsBeans();
-
-			break;
-
-		case NOTHING:
-			break;
 		}
 	}
 
@@ -99,22 +101,26 @@ public class River {
 	 * 
 	 * @param currentItem
 	 *            the passed in item: fox, goose, or beans.
+	 * @return returns the boolean value to be assigned to the item.
 	 */
-	private void moveItem(boolean currentItem) {
-		if ((currentItem && this.farmer) || !(currentItem && this.farmer)) {
+	private boolean moveItem(boolean currentItem) {
+
+		boolean resultVal = false;
+
+		if (currentItem == this.farmer) {
 			this.farmer = false;
-			currentItem = false;
+			resultVal = false;
 		} else {
 			throw new IllegalArgumentException("The current item and the farmer are not on the same side.");
 		}
+		return resultVal;
 	}
 
 	/**
 	 * Checks to see that the goose and beans are not alone on the same side.
 	 */
 	private void checkIfGooseEatsBeans() {
-		if ((this.goose == false && this.beans == false && this.farmer == true)
-				|| (this.goose == true && this.beans == true && this.farmer == false)) {
+		if ((this.goose == this.beans) && (this.goose != this.farmer)) {
 			throw new IllegalStateException("The goose will eat the beans. Try again.");
 		}
 	}
@@ -123,14 +129,17 @@ public class River {
 	 * Checks to see if the fox and the goose are not alone on the same side.
 	 */
 	private void checkIfFoxEatsGoose() {
-		if ((this.goose == false && this.fox == false && this.farmer == true)
-				|| (this.goose == true && this.fox == true && this.farmer == false)) {
+
+		if ((this.goose == this.fox) && (this.goose != this.farmer)) {
 			throw new IllegalStateException("The fox will eat the goose. Try again.");
 		}
+
 	}
 
 	/**
 	 * Returns the status of all the items concerned.
+	 * 
+	 * @return A string location of all the items and their loation
 	 */
 	public String toString() {
 
@@ -141,11 +150,58 @@ public class River {
 	/**
 	 * Returns the number of moves.
 	 * 
-	 * @return
+	 * @return An arrayList of the current valid moves
 	 */
 	public ArrayList<Item> getMoves() {
 		ArrayList<Item> numberOfMoves = new ArrayList<Item>();
 
+		if (this.farmer == this.fox) {
+			this.addFox(numberOfMoves);
+		}
+		if (this.farmer == this.goose) {
+			numberOfMoves.add(Item.GOOSE);
+		}
+		if (this.farmer == this.beans) {
+			this.addBeans(numberOfMoves);
+		}
+		if ((this.goose != this.beans) || (this.goose != this.fox)) {
+
+			numberOfMoves.add(Item.NOTHING);
+
+		}
+
+		// for (Item item : numberOfMoves) {
+		// System.out.println(item);
+		// }
+		//
+		// System.out.println("Goose: "+this.goose);
+
 		return numberOfMoves;
+	}
+
+	/**
+	 * Adds beans to list after making sure that goose and fox are not on the
+	 * same side alone.
+	 * 
+	 * @param numberOfMoves
+	 *            The list of items
+	 */
+	private void addBeans(ArrayList<Item> numberOfMoves) {
+		if (this.goose != this.fox) {
+			numberOfMoves.add(Item.BEANS);
+		}
+	}
+
+	/**
+	 * Adds fox to list after making sure that goose and beans are not on the
+	 * same side alone.
+	 * 
+	 * @param numberOfMoves
+	 *            the list of items
+	 */
+	private void addFox(ArrayList<Item> numberOfMoves) {
+		if (this.goose != this.beans) {
+			numberOfMoves.add(Item.FOX);
+		}
 	}
 }
