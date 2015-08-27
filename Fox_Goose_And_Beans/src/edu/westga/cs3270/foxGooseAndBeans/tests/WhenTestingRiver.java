@@ -25,46 +25,15 @@ public class WhenTestingRiver {
 	private ArrayList<Item> items;
 
 	/**
-	 * Set up method to initalize variables to be used by methods
+	 * Set up method that declares the variables for the tests.
 	 * 
-	 * @throws java.lang.Exception
+	 * @throws Exception
+	 *             The exception that's thrown if error occurs.
 	 */
 	@Before
 	public void setUp() throws Exception {
 		this.aRiver = new River();
 		this.items = new ArrayList<Item>();
-	}
-
-	/**
-	 * Method for forcing the program into an IllegalStateException for the fox
-	 * eating the goose.
-	 */
-	@Test(expected = IllegalStateException.class)
-	public void foxEatsGoose() {
-
-		this.aRiver.transportItem(Item.BEANS);
-	}
-
-	/**
-	 * Test method for
-	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#solved()}.
-	 */
-	@Test
-	public void testSolved() {
-
-		assertFalse(this.aRiver.solved());
-	}
-
-	/**
-	 * Test method for
-	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#solved()}.
-	 */
-	@Test
-	public void testSolvedAfterOneItem() {
-
-		this.aRiver.transportItem(Item.GOOSE);
-
-		assertFalse(this.aRiver.solved());
 	}
 
 	/**
@@ -108,6 +77,48 @@ public class WhenTestingRiver {
 
 	/**
 	 * Test method for
+	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#solved()}.
+	 */
+	@Test
+	public void testSolved() {
+
+		assertFalse(this.aRiver.solved());
+	}
+
+	/**
+	 * Test method for
+	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#solved()}.
+	 */
+	@Test
+	public void testSolvedAfterOneItem() {
+
+		this.aRiver.transportItem(Item.GOOSE);
+
+		assertFalse(this.aRiver.solved());
+	}
+
+	/**
+	 * Method for forcing the program into an IllegalStateException for the fox
+	 * eating the goose.
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void foxEatsGoose() {
+
+		this.aRiver.transportItem(Item.BEANS);
+	}
+
+	/**
+	 * Method for forcing the program into an IllegalStateException for the
+	 * goose eating the beans.
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void gooseEatsBeans() {
+
+		this.aRiver.transportItem(Item.FOX);
+	}
+
+	/**
+	 * Test method for
 	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#getMoves()}.
 	 */
 	@Test
@@ -139,8 +150,10 @@ public class WhenTestingRiver {
 		this.aRiver.transportItem(Item.NOTHING);
 
 		this.items = this.aRiver.getMoves();
-		assertTrue(this.items.contains(Item.BEANS) && this.items.contains(Item.NOTHING) && this.items.contains(Item.FOX)
-						&& this.items.size() == 3);
+		assertTrue(this.items.contains(Item.BEANS));
+		assertTrue(this.items.contains(Item.NOTHING));
+		assertTrue(this.items.contains(Item.FOX));
+		assertTrue(this.items.size() == 3);
 	}
 
 }

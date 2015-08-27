@@ -6,7 +6,10 @@ package edu.westga.cs3270.foxGooseAndBeans.model;
 import java.util.ArrayList;
 
 /**
- * @author danielburkhart The river class.
+ * The river class.
+ * 
+ * @author danielburkhart
+ * @version Fall 2015
  */
 public class River {
 
@@ -43,15 +46,11 @@ public class River {
 	/**
 	 * Returns true if all four values return false.
 	 * 
-	 * @return
+	 * @return returns true if all the items are on the west side of the bank.
 	 */
 	public boolean solved() {
 
-		if ((this.fox == false && this.goose == false && this.beans == false && this.farmer == false)) {
-			return true;
-		} else {
-			return false;
-		}
+		return !this.fox && !this.beans && !this.goose && !this.farmer;
 	}
 
 	/**
@@ -61,7 +60,6 @@ public class River {
 	 *            The item that is passed in to be transported across the river.
 	 */
 	public void transportItem(Item anItem) {
-
 		switch (anItem) {
 			case GOOSE:
 
@@ -143,8 +141,9 @@ public class River {
 	 */
 	public String toString() {
 
-		return "The items' current location is:\n" + this.farmer + "\n" + this.goose + "\n" + this.beans + "\n"
-				+ this.fox + "\nThe items are on the east side" + "if the value is false and west if true";
+		return "The items' current location is:\n" + "The Farmer: " + this.farmer + "\n" + "The Goose: " + this.goose
+				+ "\n" + "The Beans: " + this.beans + "\n" + "The Fox: " + this.fox
+				+ "\nThe goal value for all four items is false.";
 	}
 
 	/**
@@ -169,12 +168,6 @@ public class River {
 			numberOfMoves.add(Item.NOTHING);
 
 		}
-
-		// for (Item item : numberOfMoves) {
-		// System.out.println(item);
-		// }
-		//
-		// System.out.println("Goose: "+this.goose);
 
 		return numberOfMoves;
 	}
