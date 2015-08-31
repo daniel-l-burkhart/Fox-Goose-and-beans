@@ -57,13 +57,14 @@ public class WhenTestingRiver {
 
 	/**
 	 * Test method for
-	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}
+	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River
+	 * #transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}
+	 * The second valid solution for the problem.
 	 * .
 	 */
 	@Test
 	public void secondTestTransportItem() {
-
-		// 7 different calls than testTransportItem
+		
 		this.aRiver.transportItem(Item.GOOSE);
 		this.aRiver.transportItem(Item.NOTHING);
 		this.aRiver.transportItem(Item.BEANS);
@@ -98,8 +99,8 @@ public class WhenTestingRiver {
 	}
 
 	/**
-	 * Method for forcing the program into an IllegalStateException for the fox
-	 * eating the goose.
+	 * Method for forcing the program into an IllegalStateException for the 
+	 * fox eating the goose.
 	 */
 	@Test(expected = IllegalStateException.class)
 	public void foxEatsGoose() {
@@ -125,7 +126,8 @@ public class WhenTestingRiver {
 	public void testGetMoves() {
 
 		this.items = this.aRiver.getMoves();
-		assertTrue(this.items.contains(Item.GOOSE) && this.items.size() == 1);
+		assertTrue(this.items.contains(Item.GOOSE));
+		assertTrue(this.items.size() == 1);
 	}
 
 	/**
@@ -137,7 +139,9 @@ public class WhenTestingRiver {
 		this.aRiver.transportItem(Item.GOOSE);
 
 		this.items = this.aRiver.getMoves();
-		assertTrue(this.items.contains(Item.GOOSE) && this.items.contains(Item.NOTHING) && this.items.size() == 2);
+		assertTrue(this.items.contains(Item.GOOSE));
+		assertTrue(this.items.contains(Item.NOTHING));
+		assertTrue(this.items.size() == 2);
 	}
 
 	/**
