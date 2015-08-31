@@ -33,7 +33,19 @@ public class RiverGuide {
 	 * @return True once a solution is found. False otherwise.
 	 */
 	private boolean solve(River aRiver) {
+		
+		if (aRiver.solved()) {
+			return true;
+		}
+		
+		if (this.closed.isEmpty()) {
+			this.closed.add("Nothing");
+		}
+		
+		aRiver.transportItem(Item.NOTHING);
+		this.solve(aRiver);
 		return false;
+
 	}
 
 	/**

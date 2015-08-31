@@ -38,8 +38,8 @@ public class WhenTestingRiver {
 
 	/**
 	 * Test method for
-	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}
-	 * .
+	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River
+	 * #transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}.
 	 */
 	@Test
 	public void testTransportItem() {

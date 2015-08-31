@@ -61,7 +61,7 @@ public class River {
 	 */
 	public void transportItem(Item anItem) {
 		switch (anItem) {
-			
+
 			case GOOSE:
 
 				this.goose = this.moveItem(this.goose);
@@ -76,7 +76,7 @@ public class River {
 				this.checkIfGooseEatsBeans();
 				this.goose = true;
 				break;
-				
+
 			case BEANS:
 
 				this.beans = this.moveItem(this.beans);
@@ -165,7 +165,6 @@ public class River {
 			this.addBeans(numberOfMoves);
 		}
 		if ((this.goose != this.beans) || (this.goose != this.fox)) {
-
 			numberOfMoves.add(Item.NOTHING);
 
 		}
