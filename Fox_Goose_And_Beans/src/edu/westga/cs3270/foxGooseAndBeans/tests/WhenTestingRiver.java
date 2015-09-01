@@ -49,7 +49,7 @@ public class WhenTestingRiver {
 		for (Item anItem : correctOrder) {
 			this.aRiver = this.aRiver.transportItem(anItem);
 		}
-
+		
 		assertTrue(this.aRiver.solved());
 	}
 
@@ -118,7 +118,7 @@ public class WhenTestingRiver {
 	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#getMoves()}.
 	 */
 	@Test
-	public void testGetMoves() {
+	public void whenGetMovesHasGoose() {
 
 		this.items = this.aRiver.getMoves();
 		assertEquals(1, this.items.size());
@@ -131,7 +131,7 @@ public class WhenTestingRiver {
 	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#getMoves()}.
 	 */
 	@Test
-	public void secondTestGetMoves() {
+	public void whenGetMovesHasGooseAndNothing() {
 
 		this.aRiver = this.aRiver.transportItem(Item.GOOSE);
 
@@ -147,7 +147,7 @@ public class WhenTestingRiver {
 	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River#getMoves()}.
 	 */
 	@Test
-	public void thirdTestGetMoves() {
+	public void whenGetMovesHasFoxBeansAndNothing() {
 
 		this.aRiver = this.aRiver.transportItem(Item.GOOSE);
 		this.aRiver = this.aRiver.transportItem(Item.NOTHING);

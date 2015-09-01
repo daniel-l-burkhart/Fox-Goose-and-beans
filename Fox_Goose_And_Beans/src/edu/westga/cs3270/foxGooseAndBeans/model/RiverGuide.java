@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * The river guide class.
+ * The river guide class. Searches through the available river states to build
+ * the solution set using a breadth-first search algoithm.
  * 
  * @author danielburkhart
  * @version Fall 2015
@@ -22,6 +23,7 @@ public class RiverGuide {
 		this.aRiver = new River();
 		this.closed = new HashSet<String>();
 		this.solution = new ArrayList<Item>();
+		this.closed.add(this.aRiver.toString());
 	}
 
 	/**
@@ -33,18 +35,18 @@ public class RiverGuide {
 	 * @return True once a solution is found. False otherwise.
 	 */
 	private boolean solve(River aRiver) {
-		
-		if (aRiver.solved()) {
-			return true;
+
+		while (!aRiver.solved()) {
+			this.closed.add(aRiver.toString());
+			this.solution.add(aRiver.getMoves().get(0));
+			River nextState = aRiver.transportItem(aRiver.getMoves().get(0));
+			this.solve(nextState);
+			return false;
 		}
-		
-		if (this.closed.isEmpty()) {
-			this.closed.add("Nothing");
-		}
-		
-		aRiver.transportItem(Item.NOTHING);
-		this.solve(aRiver);
-		return false;
+
+		this.closed.add(aRiver.toString());
+		this.solution.addAll(aRiver.getMoves());
+		return true;
 
 	}
 

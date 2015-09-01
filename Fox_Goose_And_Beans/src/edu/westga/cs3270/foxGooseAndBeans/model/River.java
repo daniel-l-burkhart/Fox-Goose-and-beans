@@ -70,7 +70,6 @@ public class River {
 		River newStateRiver;
 
 		switch (anItem) {
-			// TODO: Transition this state to a new state.
 			case GOOSE:
 				newStateRiver = this.moveGoose();
 				return newStateRiver;
@@ -88,7 +87,7 @@ public class River {
 				return newStateRiver;
 
 			default:
-				newStateRiver = new River();
+				newStateRiver = null;
 				return newStateRiver;
 		}
 	}
@@ -104,10 +103,13 @@ public class River {
 
 			boolean goose = !(this.hasWestGoose);
 			boolean farmer = !(this.hasWestFarmer);
+
 			aRiver = new River(farmer, goose, this.hasWestFox, this.hasWestBeans);
 			return aRiver;
+		} else {
+			throw new IllegalArgumentException("The farmer and the goose are not on the same side.");
 		}
-		return aRiver;
+
 	}
 
 	/**
@@ -121,11 +123,14 @@ public class River {
 
 			boolean farmer = !(this.hasWestFarmer);
 			boolean fox = !(this.hasWestFox);
+
 			aRiver = new River(farmer, this.hasWestGoose, fox, this.hasWestBeans);
 			this.checkifGooseEatsBeans(farmer, this.hasWestBeans);
 			return aRiver;
+			
+		} else {
+			throw new IllegalArgumentException("The farmer and the fox are not on the same side.");
 		}
-		return aRiver;
 	}
 
 	/**
@@ -155,12 +160,15 @@ public class River {
 
 			boolean farmer = !(this.hasWestFarmer);
 			boolean beans = !(this.hasWestBeans);
+			
 			aRiver = new River(farmer, this.hasWestGoose, this.hasWestFox, beans);
 			this.checkifFoxEatsGoose(farmer, this.hasWestFox);
 			return aRiver;
 
+		} else {
+			throw new IllegalArgumentException("The farmer and the beans are not on the same side.");
 		}
-		return aRiver;
+
 	}
 
 	/**
@@ -224,7 +232,7 @@ public class River {
 	public ArrayList<Item> getMoves() {
 		ArrayList<Item> numberOfMoves = new ArrayList<Item>();
 
-		if (this.hasWestFarmer == this.hasWestFox ) {
+		if (this.hasWestFarmer == this.hasWestFox) {
 			this.addFox(numberOfMoves);
 		}
 		if (this.hasWestFarmer == this.hasWestGoose) {
@@ -242,8 +250,9 @@ public class River {
 	}
 
 	/**
-	 * Adds beans to list after making sure that goose and fox are not on the
-	 * same side alone.
+	 * private helper method that provides the additional check ensuring the
+	 * goose and the fox are not on the same side alone before adding the beans
+	 * to the solution set.
 	 *
 	 * @param numberOfMoves
 	 *            The list of items
@@ -255,8 +264,9 @@ public class River {
 	}
 
 	/**
-	 * Adds fox to list after making sure that goose and beans are not on the
-	 * same side alone.
+	 * private helper method that provides the additional check ensuring the
+	 * goose and the beans are not on the same side alone before adding the fox
+	 * to the solution set.
 	 *
 	 * @param numberOfMoves
 	 *            the list of items
