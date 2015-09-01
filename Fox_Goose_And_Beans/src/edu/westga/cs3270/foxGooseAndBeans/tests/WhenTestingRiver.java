@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.westga.cs3270.foxGooseAndBeans.tests;
 
@@ -15,7 +15,7 @@ import edu.westga.cs3270.foxGooseAndBeans.model.River;
 
 /**
  * Test class for putting methods under the river class under test.
- * 
+ *
  * @author danielburkhart
  * @version Fall 2015
  */
@@ -26,7 +26,7 @@ public class WhenTestingRiver {
 
 	/**
 	 * Set up method that declares the variables for the tests.
-	 * 
+	 *
 	 * @throws Exception
 	 *             The exception that's thrown if error occurs.
 	 */
@@ -38,40 +38,34 @@ public class WhenTestingRiver {
 
 	/**
 	 * Test method for
-	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River
-	 * #transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}.
+	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River #transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}
+	 * .
 	 */
 	@Test
-	public void testTransportItem() {
+	public void whenBeansSecond() {
 
-		this.aRiver.transportItem(Item.GOOSE);
-		this.aRiver.transportItem(Item.NOTHING);
-		this.aRiver.transportItem(Item.FOX);
-		this.aRiver.transportItem(Item.NOTHING);
-		this.aRiver.transportItem(Item.BEANS);
-		this.aRiver.transportItem(Item.NOTHING);
-		this.aRiver.transportItem(Item.GOOSE);
+		Item[] correctOrder = { Item.GOOSE, Item.NOTHING, Item.BEANS, Item.GOOSE, Item.FOX, Item.NOTHING, Item.GOOSE };
+
+		for (Item anItem : correctOrder) {
+			this.aRiver = this.aRiver.transportItem(anItem);
+		}
 
 		assertTrue(this.aRiver.solved());
 	}
 
 	/**
 	 * Test method for
-	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River
-	 * #transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}
-	 * The second valid solution for the problem.
-	 * .
+	 * {@link edu.westga.cs3270.foxGooseAndBeans.model.River #transportItem(edu.westga.cs3270.foxGooseAndBeans.model.Item)}
+	 * The second valid solution for the problem. .
 	 */
 	@Test
-	public void secondTestTransportItem() {
-		
-		this.aRiver.transportItem(Item.GOOSE);
-		this.aRiver.transportItem(Item.NOTHING);
-		this.aRiver.transportItem(Item.BEANS);
-		this.aRiver.transportItem(Item.NOTHING);
-		this.aRiver.transportItem(Item.FOX);
-		this.aRiver.transportItem(Item.NOTHING);
-		this.aRiver.transportItem(Item.GOOSE);
+	public void whenFoxSecond() {
+
+		Item[] correctOrder = { Item.GOOSE, Item.NOTHING, Item.FOX, Item.GOOSE, Item.BEANS, Item.NOTHING, Item.GOOSE };
+
+		for (Item anItem : correctOrder) {
+			this.aRiver = this.aRiver.transportItem(anItem);
+		}
 
 		assertTrue(this.aRiver.solved());
 	}
@@ -99,8 +93,8 @@ public class WhenTestingRiver {
 	}
 
 	/**
-	 * Method for forcing the program into an IllegalStateException for the 
-	 * fox eating the goose.
+	 * Method for forcing the program into an IllegalStateException for the fox
+	 * eating the goose.
 	 */
 	@Test(expected = IllegalStateException.class)
 	public void foxEatsGoose() {
@@ -116,6 +110,7 @@ public class WhenTestingRiver {
 	public void gooseEatsBeans() {
 
 		this.aRiver.transportItem(Item.FOX);
+		System.out.println(this.aRiver.toString());
 	}
 
 	/**
@@ -126,8 +121,9 @@ public class WhenTestingRiver {
 	public void testGetMoves() {
 
 		this.items = this.aRiver.getMoves();
-		assertTrue(this.items.contains(Item.GOOSE));
-		assertTrue(this.items.size() == 1);
+		assertEquals(1, this.items.size());
+		assertEquals(Item.GOOSE, this.items.get(0));
+
 	}
 
 	/**
@@ -136,12 +132,14 @@ public class WhenTestingRiver {
 	 */
 	@Test
 	public void secondTestGetMoves() {
-		this.aRiver.transportItem(Item.GOOSE);
+
+		this.aRiver = this.aRiver.transportItem(Item.GOOSE);
 
 		this.items = this.aRiver.getMoves();
-		assertTrue(this.items.contains(Item.GOOSE));
-		assertTrue(this.items.contains(Item.NOTHING));
-		assertTrue(this.items.size() == 2);
+
+		assertEquals(2, this.items.size());
+		assertEquals(Item.GOOSE, this.items.get(0));
+		assertEquals(Item.NOTHING, this.items.get(1));
 	}
 
 	/**
@@ -150,14 +148,16 @@ public class WhenTestingRiver {
 	 */
 	@Test
 	public void thirdTestGetMoves() {
-		this.aRiver.transportItem(Item.GOOSE);
-		this.aRiver.transportItem(Item.NOTHING);
+
+		this.aRiver = this.aRiver.transportItem(Item.GOOSE);
+		this.aRiver = this.aRiver.transportItem(Item.NOTHING);
 
 		this.items = this.aRiver.getMoves();
-		assertTrue(this.items.contains(Item.BEANS));
-		assertTrue(this.items.contains(Item.NOTHING));
-		assertTrue(this.items.contains(Item.FOX));
-		assertTrue(this.items.size() == 3);
+
+		assertEquals(3, this.items.size());
+		assertEquals(Item.FOX, this.items.get(0));
+		assertEquals(Item.BEANS, this.items.get(1));
+		assertEquals(Item.NOTHING, this.items.get(2));
 	}
 
 }

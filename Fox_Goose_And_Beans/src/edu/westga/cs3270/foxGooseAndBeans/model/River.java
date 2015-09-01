@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.westga.cs3270.foxGooseAndBeans.model;
 
@@ -7,164 +7,233 @@ import java.util.ArrayList;
 
 /**
  * The river class.
- * 
+ *
  * @author danielburkhart
  * @version Fall 2015
  */
 public class River {
 
-	private boolean fox;
-	private boolean goose;
-	private boolean beans;
-	private boolean farmer;
+	private final boolean hasWestFox;
+	private final boolean hasWestGoose;
+	private final boolean hasWestBeans;
+	private final boolean hasWestFarmer;
 
 	/**
 	 * Constructor of class that initializes private instance variables to true
 	 * signifying the west side of the bank.
 	 */
 	public River() {
-		this.fox = true;
-		this.goose = true;
-		this.beans = true;
-		this.farmer = true;
+		this.hasWestFox = true;
+		this.hasWestGoose = true;
+		this.hasWestBeans = true;
+		this.hasWestFarmer = true;
 	}
 
 	/**
-	 * Copy Constructor of class that initializes private instance variables to
-	 * true signifying the west side of the bank.
-	 * 
-	 * @param aRiver
-	 *            The passed in river.
+	 * Initialization constructor for all four variables
+	 *
+	 * @param hasWestFarmer
+	 *            The farmer parameter
+	 * @param hasWestGoose
+	 *            the goose parameter
+	 * @param hasWestFox
+	 *            the fox parameter
+	 * @param hasWestBeans
+	 *            the beans parameter
 	 */
-	public River(River aRiver) {
-		this.fox = true;
-		this.goose = true;
-		this.beans = true;
-		this.farmer = true;
+	public River(boolean hasWestFarmer, boolean hasWestGoose, boolean hasWestFox, boolean hasWestBeans) {
+		this.hasWestFarmer = hasWestFarmer;
+		this.hasWestGoose = hasWestGoose;
+		this.hasWestFox = hasWestFox;
+		this.hasWestBeans = hasWestBeans;
+
 	}
 
 	/**
 	 * Returns true if all four values return false.
-	 * 
+	 *
 	 * @return returns true if all the items are on the west side of the bank.
 	 */
 	public boolean solved() {
 
-		return !this.fox && !this.beans && !this.goose && !this.farmer;
+		return (!this.hasWestFox && !this.hasWestBeans && !this.hasWestGoose && !this.hasWestFarmer);
 	}
 
 	/**
 	 * The method that takes the farmer and one item across the river
-	 * 
+	 *
 	 * @param anItem
 	 *            The item that is passed in to be transported across the river.
+	 * @return Returns the new River state.
 	 */
-	public void transportItem(Item anItem) {
+	public River transportItem(Item anItem) {
+		River newStateRiver;
+
 		switch (anItem) {
-
+			// TODO: Transition this state to a new state.
 			case GOOSE:
-
-				this.goose = this.moveItem(this.goose);
-				this.checkIfFoxEatsGoose();
-				this.checkIfGooseEatsBeans();
-				break;
+				newStateRiver = this.moveGoose();
+				return newStateRiver;
 
 			case FOX:
-
-				this.fox = this.moveItem(this.fox);
-				this.checkIfFoxEatsGoose();
-				this.checkIfGooseEatsBeans();
-				this.goose = true;
-				break;
+				newStateRiver = this.moveFox();
+				return newStateRiver;
 
 			case BEANS:
-
-				this.beans = this.moveItem(this.beans);
-				this.checkIfGooseEatsBeans();
-				this.checkIfFoxEatsGoose();
-				this.goose = true;
-				break;
+				newStateRiver = this.moveBeans();
+				return newStateRiver;
 
 			case NOTHING:
-				this.farmer = true;
-				break;
+				newStateRiver = this.moveNothing();
+				return newStateRiver;
 
 			default:
-				break;
-
+				newStateRiver = new River();
+				return newStateRiver;
 		}
 	}
 
 	/**
-	 * Moves the passed in item from one side to the other
+	 * Moves the farmer and the goose across the river.
 	 * 
-	 * @param currentItem
-	 *            the passed in item: fox, goose, or beans.
-	 * @return returns the boolean value to be assigned to the item.
+	 * @return a new River with the new locations of the farmer and the goose.
 	 */
-	private boolean moveItem(boolean currentItem) {
+	private River moveGoose() {
+		River aRiver = null;
+		if (this.hasWestFarmer == this.hasWestGoose) {
 
-		boolean resultVal = false;
-
-		if (currentItem == this.farmer) {
-			this.farmer = false;
-			resultVal = false;
-		} else {
-			throw new IllegalArgumentException("The current item and the farmer are not on the same side.");
+			boolean goose = !(this.hasWestGoose);
+			boolean farmer = !(this.hasWestFarmer);
+			aRiver = new River(farmer, goose, this.hasWestFox, this.hasWestBeans);
+			return aRiver;
 		}
-		return resultVal;
+		return aRiver;
 	}
 
 	/**
-	 * Checks to see that the goose and beans are not alone on the same side.
+	 * Moves the farmer and the fox across the river.
+	 * 
+	 * @return a new River with the new locations of the farmer and the fox.
 	 */
-	private void checkIfGooseEatsBeans() {
-		if ((this.goose == this.beans) && (this.goose != this.farmer)) {
-			throw new IllegalStateException("The goose will eat the beans. Try again.");
+	private River moveFox() {
+		River aRiver = null;
+		if (this.hasWestFarmer == this.hasWestFox) {
+
+			boolean farmer = !(this.hasWestFarmer);
+			boolean fox = !(this.hasWestFox);
+			aRiver = new River(farmer, this.hasWestGoose, fox, this.hasWestBeans);
+			this.checkifGooseEatsBeans(farmer, this.hasWestBeans);
+			return aRiver;
+		}
+		return aRiver;
+	}
+
+	/**
+	 * Checks to see if fox eats goose.
+	 * 
+	 * @param farmer
+	 *            The farmer location at this state
+	 * @param fox
+	 *            The fox location at this state.
+	 */
+	private void checkifFoxEatsGoose(boolean farmer, boolean fox) {
+		if (fox == this.hasWestGoose && this.hasWestGoose != farmer) {
+			throw new IllegalStateException("The fox has eaten the goose.");
+		}
+
+	}
+
+	/**
+	 * Moves the farmer and the beans across the river.
+	 * 
+	 * @return a new River with the new locations of the farmer and the beans.
+	 */
+	private River moveBeans() {
+		River aRiver = null;
+
+		if (this.hasWestFarmer == this.hasWestBeans) {
+
+			boolean farmer = !(this.hasWestFarmer);
+			boolean beans = !(this.hasWestBeans);
+			aRiver = new River(farmer, this.hasWestGoose, this.hasWestFox, beans);
+			this.checkifFoxEatsGoose(farmer, this.hasWestFox);
+			return aRiver;
+
+		}
+		return aRiver;
+	}
+
+	/**
+	 * Checks to see if the goose eats the beans
+	 * 
+	 * @param farmer
+	 *            The farmer location at this state
+	 * @param beans
+	 *            The beans' location at this state
+	 */
+	private void checkifGooseEatsBeans(boolean farmer, boolean beans) {
+		if (beans == this.hasWestGoose && this.hasWestGoose != farmer) {
+			throw new IllegalStateException("The goose has eaten the beans.");
 		}
 	}
 
 	/**
-	 * Checks to see if the fox and the goose are not alone on the same side.
+	 * Moves the farmer and nothing across the river.
+	 * 
+	 * @return a new River with the new locations of the farmer and nothing.
 	 */
-	private void checkIfFoxEatsGoose() {
+	private River moveNothing() {
 
-		if ((this.goose == this.fox) && (this.goose != this.farmer)) {
-			throw new IllegalStateException("The fox will eat the goose. Try again.");
-		}
+		River currentRiver = null;
 
+		boolean farmer = !this.hasWestFarmer;
+		currentRiver = new River(farmer, this.hasWestGoose, this.hasWestFox, this.hasWestBeans);
+		return currentRiver;
 	}
 
 	/**
 	 * Returns the status of all the items concerned.
-	 * 
+	 *
 	 * @return A string location of all the items and their loation
 	 */
 	public String toString() {
+		return String.format("[Farmer: %s, Fox: %s, Goose: %s, Beans: %s]", this.getRiverBank(this.hasWestFarmer),
+				this.getRiverBank(this.hasWestFox), this.getRiverBank(this.hasWestGoose),
+				this.getRiverBank(this.hasWestBeans));
+	}
 
-		return "The items' current location is:\n" + "The Farmer: " + this.farmer + "\n" + "The Goose: " + this.goose
-				+ "\n" + "The Beans: " + this.beans + "\n" + "The Fox: " + this.fox
-				+ "\nThe goal value for all four items is false.";
+	/**
+	 * Helper output method for string output
+	 *
+	 * @param hasItem
+	 *            The item in question.
+	 * @return A string if the item is east or west.
+	 */
+	private String getRiverBank(boolean hasItem) {
+		if (hasItem) {
+			return "west";
+		}
+		return "east";
 	}
 
 	/**
 	 * Returns the number of moves.
-	 * 
+	 *
 	 * @return An arrayList of the current valid moves
 	 */
 	public ArrayList<Item> getMoves() {
 		ArrayList<Item> numberOfMoves = new ArrayList<Item>();
 
-		if (this.farmer == this.fox) {
+		if (this.hasWestFarmer == this.hasWestFox ) {
 			this.addFox(numberOfMoves);
 		}
-		if (this.farmer == this.goose) {
+		if (this.hasWestFarmer == this.hasWestGoose) {
 			numberOfMoves.add(Item.GOOSE);
 		}
-		if (this.farmer == this.beans) {
+		if (this.hasWestFarmer == this.hasWestBeans) {
 			this.addBeans(numberOfMoves);
 		}
-		if ((this.goose != this.beans) || (this.goose != this.fox)) {
+		if ((this.hasWestGoose != this.hasWestBeans) || (this.hasWestGoose != this.hasWestFox)) {
 			numberOfMoves.add(Item.NOTHING);
 
 		}
@@ -175,12 +244,12 @@ public class River {
 	/**
 	 * Adds beans to list after making sure that goose and fox are not on the
 	 * same side alone.
-	 * 
+	 *
 	 * @param numberOfMoves
 	 *            The list of items
 	 */
 	private void addBeans(ArrayList<Item> numberOfMoves) {
-		if (this.goose != this.fox) {
+		if (this.hasWestGoose != this.hasWestFox) {
 			numberOfMoves.add(Item.BEANS);
 		}
 	}
@@ -188,12 +257,12 @@ public class River {
 	/**
 	 * Adds fox to list after making sure that goose and beans are not on the
 	 * same side alone.
-	 * 
+	 *
 	 * @param numberOfMoves
 	 *            the list of items
 	 */
 	private void addFox(ArrayList<Item> numberOfMoves) {
-		if (this.goose != this.beans) {
+		if (this.hasWestGoose != this.hasWestBeans) {
 			numberOfMoves.add(Item.FOX);
 		}
 	}
