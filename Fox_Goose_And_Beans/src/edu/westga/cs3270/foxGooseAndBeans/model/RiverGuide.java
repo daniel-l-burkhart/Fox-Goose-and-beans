@@ -24,6 +24,7 @@ public class RiverGuide {
 		this.aRiver = new River();
 		this.closed = new HashSet<String>();
 		this.solution = new LinkedList<Item>();
+
 		this.closed.add(this.aRiver.toString());
 	}
 
@@ -36,22 +37,28 @@ public class RiverGuide {
 	 * @return True once a solution is found. False otherwise.
 	 */
 	private boolean solve(River aRiver) {
-		boolean solved;
+
 		ArrayList<Item> items = aRiver.getMoves();
+
+		if (aRiver.solved()) {
+			return true;
+		}
 
 		for (Item anItem : items) {
 
 			River nextState = aRiver.transportItem(anItem);
 
 			if (!this.closed.contains(nextState.toString())) {
+
 				this.closed.add(nextState.toString());
-				solved = this.solve(nextState);
+				boolean solved = this.solve(nextState);
+
+				if (solved) {
+					this.solution.addFirst(anItem);
+					return true;
+				}
 			}
 
-			if (aRiver.solved()) {
-				this.solution.addFirst(anItem);
-				return true;
-			}
 		}
 
 		return false;
@@ -64,9 +71,11 @@ public class RiverGuide {
 	 * @return An arraylist containing the order in which to reach the solution.
 	 */
 	public LinkedList<Item> getSolution() {
+
 		if (this.solution.isEmpty()) {
 			this.solve(this.aRiver);
+			return this.solution;
 		}
-		return this.solution;
+		return null;
 	}
 }
