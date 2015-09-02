@@ -29,7 +29,8 @@ public class RiverGuide {
 	}
 
 	/**
-	 * Method recursively search until it finds the solution.
+	 * Method that uses the river's getMoves method to find the available moves
+	 * at each state then recursively searches until it finds the solution.
 	 *
 	 * @param aRiver
 	 *            The current river scenario
@@ -66,9 +67,10 @@ public class RiverGuide {
 	}
 
 	/**
-	 * The solution path.
+	 * Public method that generates the solution list if it's not created and
+	 * then returns that list.
 	 *
-	 * @return An arraylist containing the order in which to reach the solution.
+	 * @return A LinkedList containing the order in which to reach the solution.
 	 */
 	public LinkedList<Item> getSolution() {
 

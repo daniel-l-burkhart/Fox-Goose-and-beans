@@ -31,7 +31,8 @@ public class River {
 	}
 
 	/**
-	 * Initialization constructor for all four variables
+	 * Initialization constructor for all four variables, representing a new
+	 * state.
 	 *
 	 * @param hasWestFarmer
 	 *            The farmer parameter
@@ -51,7 +52,8 @@ public class River {
 	}
 
 	/**
-	 * Returns true if all four values return false.
+	 * Returns true if all four values return false, meaning the puzzle is
+	 * solved.
 	 *
 	 * @return returns true if all the items are on the west side of the bank.
 	 */
@@ -61,7 +63,7 @@ public class River {
 	}
 
 	/**
-	 * The method that takes the farmer and one item across the river
+	 * Takes the farmer and one item across the river.
 	 *
 	 * @param anItem
 	 *            The item that is passed in to be transported across the river.
