@@ -23,6 +23,7 @@ public class River {
 	 * signifying the west side of the bank.
 	 */
 	public River() {
+
 		this.hasWestFox = true;
 		this.hasWestGoose = true;
 		this.hasWestBeans = true;
@@ -42,11 +43,11 @@ public class River {
 	 *            the beans parameter
 	 */
 	public River(boolean hasWestFarmer, boolean hasWestGoose, boolean hasWestFox, boolean hasWestBeans) {
+
 		this.hasWestFarmer = hasWestFarmer;
 		this.hasWestGoose = hasWestGoose;
 		this.hasWestFox = hasWestFox;
 		this.hasWestBeans = hasWestBeans;
-
 	}
 
 	/**
@@ -67,6 +68,7 @@ public class River {
 	 * @return Returns the new River state.
 	 */
 	public River transportItem(Item anItem) {
+
 		River newStateRiver;
 
 		switch (anItem) {
@@ -94,11 +96,13 @@ public class River {
 
 	/**
 	 * Moves the farmer and the goose across the river.
-	 * 
+	 *
 	 * @return a new River with the new locations of the farmer and the goose.
 	 */
 	private River moveGoose() {
-		River aRiver = null;
+
+		River aRiver;
+
 		if (this.hasWestFarmer == this.hasWestGoose) {
 
 			boolean goose = !(this.hasWestGoose);
@@ -106,6 +110,7 @@ public class River {
 
 			aRiver = new River(farmer, goose, this.hasWestFox, this.hasWestBeans);
 			return aRiver;
+
 		} else {
 			throw new IllegalArgumentException("The farmer and the goose are not on the same side.");
 		}
@@ -114,11 +119,13 @@ public class River {
 
 	/**
 	 * Moves the farmer and the fox across the river.
-	 * 
+	 *
 	 * @return a new River with the new locations of the farmer and the fox.
 	 */
 	private River moveFox() {
-		River aRiver = null;
+
+		River aRiver;
+
 		if (this.hasWestFarmer == this.hasWestFox) {
 
 			boolean farmer = !(this.hasWestFarmer);
@@ -127,7 +134,7 @@ public class River {
 			aRiver = new River(farmer, this.hasWestGoose, fox, this.hasWestBeans);
 			this.checkifGooseEatsBeans(farmer, this.hasWestBeans);
 			return aRiver;
-			
+
 		} else {
 			throw new IllegalArgumentException("The farmer and the fox are not on the same side.");
 		}
@@ -135,7 +142,7 @@ public class River {
 
 	/**
 	 * Checks to see if fox eats goose.
-	 * 
+	 *
 	 * @param farmer
 	 *            The farmer location at this state
 	 * @param fox
@@ -150,17 +157,18 @@ public class River {
 
 	/**
 	 * Moves the farmer and the beans across the river.
-	 * 
+	 *
 	 * @return a new River with the new locations of the farmer and the beans.
 	 */
 	private River moveBeans() {
-		River aRiver = null;
+
+		River aRiver;
 
 		if (this.hasWestFarmer == this.hasWestBeans) {
 
 			boolean farmer = !(this.hasWestFarmer);
 			boolean beans = !(this.hasWestBeans);
-			
+
 			aRiver = new River(farmer, this.hasWestGoose, this.hasWestFox, beans);
 			this.checkifFoxEatsGoose(farmer, this.hasWestFox);
 			return aRiver;
@@ -173,7 +181,7 @@ public class River {
 
 	/**
 	 * Checks to see if the goose eats the beans
-	 * 
+	 *
 	 * @param farmer
 	 *            The farmer location at this state
 	 * @param beans
@@ -187,12 +195,12 @@ public class River {
 
 	/**
 	 * Moves the farmer and nothing across the river.
-	 * 
+	 *
 	 * @return a new River with the new locations of the farmer and nothing.
 	 */
 	private River moveNothing() {
 
-		River currentRiver = null;
+		River currentRiver;
 
 		boolean farmer = !this.hasWestFarmer;
 		currentRiver = new River(farmer, this.hasWestGoose, this.hasWestFox, this.hasWestBeans);
@@ -218,9 +226,11 @@ public class River {
 	 * @return A string if the item is east or west.
 	 */
 	private String getRiverBank(boolean hasItem) {
+
 		if (hasItem) {
 			return "west";
 		}
+
 		return "east";
 	}
 
@@ -235,15 +245,17 @@ public class River {
 		if (this.hasWestFarmer == this.hasWestFox) {
 			this.addFox(numberOfMoves);
 		}
+
 		if (this.hasWestFarmer == this.hasWestGoose) {
 			numberOfMoves.add(Item.GOOSE);
 		}
+
 		if (this.hasWestFarmer == this.hasWestBeans) {
 			this.addBeans(numberOfMoves);
 		}
+
 		if ((this.hasWestGoose != this.hasWestBeans) || (this.hasWestGoose != this.hasWestFox)) {
 			numberOfMoves.add(Item.NOTHING);
-
 		}
 
 		return numberOfMoves;
