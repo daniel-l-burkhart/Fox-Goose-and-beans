@@ -23,6 +23,7 @@ public class WhenTestingRiverGuide {
 	 */
 	@Test
 	public void whenTestingGuideShouldGetAnOrder() {
+
 		RiverGuide currentGuide = new RiverGuide();
 
 		LinkedList<Item> solutions = currentGuide.getSolution();

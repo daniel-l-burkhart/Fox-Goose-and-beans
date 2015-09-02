@@ -149,6 +149,7 @@ public class River {
 	 *            The fox location at this state.
 	 */
 	private void checkifFoxEatsGoose(boolean farmer, boolean fox) {
+
 		if (fox == this.hasWestGoose && this.hasWestGoose != farmer) {
 			throw new IllegalStateException("The fox has eaten the goose.");
 		}
@@ -188,6 +189,7 @@ public class River {
 	 *            The beans' location at this state
 	 */
 	private void checkifGooseEatsBeans(boolean farmer, boolean beans) {
+
 		if (beans == this.hasWestGoose && this.hasWestGoose != farmer) {
 			throw new IllegalStateException("The goose has eaten the beans.");
 		}
@@ -213,6 +215,7 @@ public class River {
 	 * @return A string location of all the items and their loation
 	 */
 	public String toString() {
+
 		return String.format("[Farmer: %s, Fox: %s, Goose: %s, Beans: %s]", this.getRiverBank(this.hasWestFarmer),
 				this.getRiverBank(this.hasWestFox), this.getRiverBank(this.hasWestGoose),
 				this.getRiverBank(this.hasWestBeans));
@@ -235,11 +238,12 @@ public class River {
 	}
 
 	/**
-	 * Returns the number of moves.
+	 * Returns the number of available moves at any state in the puzzle.
 	 *
 	 * @return An arrayList of the current valid moves
 	 */
 	public ArrayList<Item> getMoves() {
+
 		ArrayList<Item> numberOfMoves = new ArrayList<Item>();
 
 		if (this.hasWestFarmer == this.hasWestFox) {
@@ -270,6 +274,7 @@ public class River {
 	 *            The list of items
 	 */
 	private void addBeans(ArrayList<Item> numberOfMoves) {
+
 		if (this.hasWestGoose != this.hasWestFox) {
 			numberOfMoves.add(Item.BEANS);
 		}
@@ -284,6 +289,7 @@ public class River {
 	 *            the list of items
 	 */
 	private void addFox(ArrayList<Item> numberOfMoves) {
+
 		if (this.hasWestGoose != this.hasWestBeans) {
 			numberOfMoves.add(Item.FOX);
 		}
