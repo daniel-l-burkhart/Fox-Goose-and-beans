@@ -205,7 +205,7 @@ public class River {
 	private River moveNothing() {
 
 		River currentRiver;
-
+	
 		boolean farmer = !this.hasWestFarmer;
 		currentRiver = new River(farmer, this.hasWestGoose, this.hasWestFox, this.hasWestBeans);
 		return currentRiver;
@@ -260,7 +260,7 @@ public class River {
 			this.addBeans(numberOfMoves);
 		}
 
-		if ((this.hasWestGoose != this.hasWestBeans) || (this.hasWestGoose != this.hasWestFox)) {
+		if ((this.hasWestGoose != this.hasWestBeans) && (this.hasWestGoose != this.hasWestFox)) {
 			numberOfMoves.add(Item.NOTHING);
 		}
 
